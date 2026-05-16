@@ -1,0 +1,50 @@
+package main
+
+import "fmt"
+
+func main() {
+	var a, b int = 10, 3
+	var result int
+
+	result = a + b
+	fmt.Printf("Addition: %d + %d = %d\n", a, b, result)
+
+	result = a - b
+	fmt.Printf("Subtraction: %d - %d = %d\n", a, b, result)
+
+	result = a * b
+	fmt.Printf("Multiplication: %d * %d = %d\n", a, b, result)
+
+	result = a / b
+	fmt.Printf("Division: %d / %d = %d\n", a, b, result)
+
+	result = a % b
+	fmt.Printf("Modulus: %d %% %d = %d\n", a, b, result)
+
+	const p float64 = 22.0 / 7.0
+	fmt.Printf("Value of Pi: %.2f\n", p)
+
+	// overflow
+	var maxInt int64 = 9223372036854775807
+	fmt.Printf("Max int64: %d\n", maxInt)
+	maxInt++
+	fmt.Printf("After overflow: %d\n", maxInt)
+
+	//overflow with uint64
+	var maxUint uint64 = 18446744073709551615
+	fmt.Printf("Max uint64: %d\n", maxUint)
+	maxUint++
+	fmt.Printf("After overflow: %d\n", maxUint)
+
+	// underflow for a float64
+	var minFloat float64 = -1.7e+308
+	fmt.Printf("Min float64: %e\n", minFloat)
+	minFloat *= 10
+	fmt.Printf("After underflow: %e\n", minFloat)
+
+	// underflow for int64
+	var minInt int64 = -9223372036854775808
+	fmt.Printf("Min int64: %d\n", minInt)
+	minInt--
+	fmt.Printf("After underflow: %d\n", minInt)
+}
