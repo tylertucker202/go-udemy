@@ -1,0 +1,49 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// //func <name>(parameters) (return types) {
+	// //	// function body
+	// //}
+	// sum := add(3, 5)
+	// fmt.Println("Sum:", sum)
+
+	// greet := func() {
+	// 	fmt.Println("This is an anonymous function.")
+	// }
+	// greet()
+
+	// operation := add
+
+	// result := operation(3, 5)
+
+	// fmt.Println("Result of operation:", result)
+
+	// result := applyOperation(3, 5, add)
+	// fmt.Println("Result of applyOperation:", result)
+
+	result := applyOperation(3, 5, func(a, b int) int {
+		return a * b
+	})
+	fmt.Println("Result of applyOperation with anonymous function:", result)
+
+	multiplier := createMultiplier(2)
+	fmt.Println("Multiplier result:", multiplier(5))
+
+}
+
+func add(a, b int) int {
+	return a + b
+}
+
+func applyOperation(x int, y int, operation func(int, int) int) int {
+	return operation(x, y)
+}
+
+func createMultiplier(factor int) func(int) int {
+	return func(x int) int {
+		return x * factor
+	}
+}

@@ -1,0 +1,28 @@
+package main
+
+import "fmt"
+
+func main() {
+	// ..Ellipsis
+	// ..Variadic functions
+	// ..Variadic functions with multiple parameters
+	// ..Variadic functions with multiple parameters and a fixed parameter
+	// func functionName(param1 type1, param2 type2, ...param3 type3) returnType {
+	// 	function body
+	// }
+
+	statement, sums := sum("The total is:", 1, 2, 3, 4, 5)
+	fmt.Println(statement, sums)
+
+	numbers := []int{6, 7, 8, 9, 10}
+	statement2, sums2 := sum("The total is:", numbers...)
+	fmt.Println(statement2, sums2)
+}
+
+func sum(returnString string, nums ...int) (string, int) {
+	total := 0
+	for _, num := range nums {
+		total += num
+	}
+	return returnString, total
+}

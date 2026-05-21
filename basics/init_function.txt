@@ -1,0 +1,17 @@
+package main
+
+import "fmt"
+
+func init() {
+	fmt.Println("This is the init function1")
+}
+func init() {
+	fmt.Println("This is the init function2")
+}
+
+func init() {
+	fmt.Println("This is the init function3")
+}
+func main() {
+	fmt.Println("This is the main function")
+}

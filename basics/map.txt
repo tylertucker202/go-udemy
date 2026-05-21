@@ -1,0 +1,72 @@
+package main
+
+import (
+	"fmt"
+	"maps"
+)
+
+func main() {
+	// var m map[key]valueType
+
+	// make mapVariable = make(map[key]valueType)
+
+	// map literal
+	// var m1 = map[string]int{"apple": 5, "banana": 3} // declares and initializes a map of string keys and int values
+
+	myMap := make(map[string]int)
+
+	fmt.Println(myMap)
+
+	myMap["key1"] = 9
+	myMap["code"] = 18
+	fmt.Println(myMap["key2"])
+
+	delete(myMap, "key1")
+	fmt.Println(myMap)
+
+	clear(myMap)
+	myMap["key1"] = 9
+	myMap["key2"] = 10
+	myMap["key3"] = 11
+
+	fmt.Println(myMap)
+
+	_, ok := myMap["key1"]
+
+	fmt.Println("is a value associated with key1?", ok)
+	_, ok = myMap["unknown"]
+	fmt.Println("is a value associated with unknown?", ok)
+
+	myMap2 := map[string]int{"a": 1, "b": 2, "c": 3}
+	myMap3 := map[string]int{"a": 1, "b": 2, "c": 3}
+	fmt.Println(myMap2)
+
+	if maps.Equal(myMap3, myMap2) {
+		fmt.Println("myMap3 and myMap2 are equal")
+	} else {
+		fmt.Println("myMap3 and myMap2 are not equal")
+	}
+
+	for key, value := range myMap2 {
+		fmt.Println("key:", key, "value:", value)
+	}
+
+	// var myMap4 map[string]string
+	myMap4 := make(map[string]string)
+	fmt.Println(myMap4)
+	// myMap4["key"] = "value" // panic: assignment to entry in nil map
+
+	val := myMap4["key"]
+	fmt.Println("value", val) // zero value for int is 0
+
+	fmt.Println("length of myMap4:", len(myMap4))
+	fmt.Println("length of myMap3:", len(myMap3))
+
+	myMap5 := map[string]map[string]int{
+		"first":  {"a": 1, "b": 2},
+		"second": {"c": 3, "d": 4},
+	}
+
+	fmt.Println(myMap5)
+
+}

@@ -1,0 +1,46 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// Simple iteration over a range
+	// for i := 0; i < 5; i++ {
+	// 	fmt.Println(i)
+	// }
+
+	// //Iterate of collection
+	// names := []string{"Alice", "Bob", "Charlie"}
+	// for index, name := range names {
+	// 	fmt.Printf("Index: %d, Name: %s\n", index, name)
+	// }
+
+	// // Infinite loop
+	// count := 0
+	// for {
+	// 	if count >= 3 {
+	// 		break
+	// 	}
+	// 	fmt.Println("Infinite Loop Count:", count)
+	// 	count++
+	// }
+
+	// rows := 5
+
+	// //outer loop
+	// for i := 1; i <= rows; i++ {
+	// 	// inner loop
+	// 	for j := 1; j <= rows-i; j++ {
+	// 		fmt.Print(" ")
+	// 	}
+	// 	for k := 1; k <= 2*i-1; k++ {
+	// 		fmt.Print("*")
+	// 	}
+	// 	fmt.Println()
+	// }
+
+	for i := range 10 {
+		fmt.Println(i)
+	}
+
+}

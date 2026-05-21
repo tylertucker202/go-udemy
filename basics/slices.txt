@@ -1,0 +1,60 @@
+package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	//var sliceName[startIndex:endIndex]elementType
+	// var numbers []int // declares a slice of integers
+
+	// fmt.Println("Slice:", numbers) // prints the slice (default value is nil)
+
+	// var numbers1 = []int{1, 2, 3, 4, 5} // declares and initializes a slice of integers
+
+	// numbers2 := []int{9, 8, 7} // declares and initializes a slice of strings
+
+	// slice := make([]int, 5) // creates a slice of integers with length 5
+
+	a := [5]int{1, 2, 3, 4, 5} // declares and initializes an array of integers
+	slice1 := a[1:4]           // creates a slice from the array (elements 2, 3, and 4)
+	slice1 = append(slice1, 6, 7)
+
+	sliceCopy := make([]int, len(slice1))
+	copy(sliceCopy, slice1) // copies the contents of slice1 to sliceCopy
+
+	// var nilSlice []int // declares a nil slice of integers
+
+	for i, v := range slice1 {
+		fmt.Println("index:", i, "value:", v)
+	}
+
+	fmt.Println("element at index 0:", slice1[0]) // prints the first element of the slice
+
+	// slice1[3] = 50
+	// fmt.Println("Slice after modification:", slice1) // prints the modified slice
+
+	if slices.Equal(slice1, sliceCopy) {
+		fmt.Println("slice1 and sliceCopy are equal")
+	} else {
+		fmt.Println("slice1 and sliceCopy are not equal")
+	}
+
+	twoD := make([][]int, 3) // creates a 2D slice with 3 rows
+	for i := range twoD {
+		innerLen := i + 1
+		twoD[i] = make([]int, innerLen)
+		for j := range innerLen {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("Two-dimensional Slice:", twoD)
+
+	slice2 := slice1[2:4]
+	fmt.Println("Slice2:", slice2) // prints the new slice created from slice1
+
+	fmt.Println("the capacity of slice2 is", cap(slice2))
+	fmt.Println("the length of slice2 is", len(slice2))
+
+}

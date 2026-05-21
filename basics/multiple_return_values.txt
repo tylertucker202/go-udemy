@@ -1,0 +1,46 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	a, b := multipleReturnValues()
+	fmt.Println("First value:", a)
+	fmt.Println("Second value:", b)
+
+	quotient, remainder := divide(10, 3)
+	fmt.Println("Quotient:", quotient)
+	fmt.Println("Remainder:", remainder)
+
+	result, err := compare(10, 10)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Comparison result:", result)
+	}
+}
+
+func multipleReturnValues() (string, int) {
+	return "Hello, World!", 42
+}
+
+func divide(a, b int) (quotient int, remainder int) {
+	if b == 0 {
+		return 0, 0 // Return zero for both quotient and remainder if division by zero
+	}
+	quotient = a / b
+	remainder = a % b
+	return
+}
+
+func compare(a, b int) (string, error) {
+	if a > b {
+		return "a is greater than b", nil
+	} else if a < b {
+		return "a is less than b", nil
+	} else {
+		return "", errors.New("Invalid input")
+	}
+}

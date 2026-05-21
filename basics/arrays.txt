@@ -1,0 +1,64 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	//var arrayName [size]elementType
+	// var numbers [5]int // declares an array of 5 integers
+
+	// fmt.Println("Array:", numbers) // prints the array (default values are 0)
+
+	// // Assigning values to the array
+	// numbers[0] = 10
+	// numbers[1] = 20
+	// numbers[2] = 30
+	// numbers[3] = 40
+	// numbers[4] = 50
+
+	// fmt.Println("Array after assigning values:", numbers) // prints the array with assigned values
+
+	// fruits := [4]string{"apple", "banana", "orange", "grapes"} // declares and initializes an array of strings
+	// fmt.Println("Fruits:", fruits)                             // prints the array of fruits
+	// fmt.Println("First fruit:", fruits[0])                     // prints the first fruit (apple)
+
+	// orignalArray := [3]int{1, 2, 3} // declares and initializes an array
+	// copiedArray := orignalArray     // creates a copy of the original array
+	// copiedArray[0] = 10             // modifies the copied array
+
+	// fmt.Println("Original Array:", orignalArray)
+	// fmt.Println("Copied Array:", copiedArray)
+
+	// for i := 0; i < len(numbers); i++ {
+	// 	fmt.Println("Element at index", i, ":", numbers[i])
+	// }
+
+	// for _, value := range fruits {
+	// 	fmt.Println("value:", value)
+	// }
+
+	// fmt.Println("then length of numbers array is:", len(numbers))
+
+	// // Comparing arrays
+	// array1 := [3]int{1, 2, 3}
+	// array2 := [3]int{1, 2, 3}
+	// // array3 := [3]int{4, 5, 6}
+
+	// fmt.Println("array1 == array2:", array1 == array2)
+
+	// multiDimensionalArray := [2][3]int{
+	// 	{1, 2, 3},
+	// 	{4, 5, 6},
+	// }
+	// fmt.Println("Multi-dimensional Array:", multiDimensionalArray)
+
+	orignalArray := [3]int{1, 2, 3} // declares and initializes an array
+	var copiedArray *[3]int
+	copiedArray = &orignalArray
+
+	copiedArray[0] = 10 // modifies the copied array
+
+	fmt.Println("Original Array:", orignalArray)
+	fmt.Println("Copied Array:", *copiedArray)
+
+}

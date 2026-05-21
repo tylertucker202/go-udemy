@@ -1,0 +1,59 @@
+package main
+
+import "fmt"
+
+func main() {
+	// age := 20
+
+	// if age >= 18 {
+	// 	println("You are an adult.")
+	// } else {
+	// 	println("You are a minor.")
+	// }
+
+	// temperature := 30
+
+	// if temperature > 25 {
+	// 	println("It's hot outside.")
+	// } else if temperature < 15 {
+	// 	println("It's cold outside.")
+	// } else {
+	// 	println("The weather is pleasant.")
+	// }
+
+	// score := 85
+
+	// if score >= 90 {
+	// 	println("Grade: A")
+	// } else if score >= 80 {
+	// 	println("Grade: B")
+	// } else if score >= 70 {
+	// 	println("Grade: C")
+	// } else if score >= 60 {
+	// 	println("Grade: D")
+	// } else {
+	// 	println("Grade: F")
+	// }
+
+	num := 15
+	if num%2 == 0 {
+		if num%3 == 0 {
+			println("The number is divisible by both 2 and 3.")
+		} else {
+			println("The number is divisible by 2 but not by 3.")
+		}
+	} else {
+		fmt.Println("The number is not divisible by 2.")
+	}
+
+	// || OR
+	// && AND
+	bug := "beltch"
+
+	if 10%2 == 0 || 5%2 == 0 {
+		fmt.Println("At least one of the numbers is even.")
+	}
+	if 10%2 == 0 && 5%2 == 0 && bug {
+		fmt.Println("Both numbers are even.")
+	}
+}

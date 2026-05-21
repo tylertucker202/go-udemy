@@ -1,0 +1,83 @@
+package main
+
+func main() {
+	// switch expression {
+	// case value1:
+	// 	// code to execute if expression matches value1
+	// 	fallthrough // optional, allows execution to continue to the next case
+	// case value2:
+	// 	// code to execute if expression matches value2
+	// default:
+	// 	// code to execute if expression doesn't match any case
+	// }
+
+	// fruit := "mountain apple"
+
+	// switch fruit {
+	// case "apple":
+	// 	println("It's an apple.")
+	// case "banana":
+	// 	println("It's a banana.")
+	// case "orange":
+	// 	println("It's an orange.")
+	// default:
+	// 	println("Unknown fruit.")
+	// }
+
+	// day := "Monday"
+
+	// switch day {
+	// case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
+	// 	println("It's a weekday.")
+	// case "Saturday", "Sunday":
+	// 	println("It's a weekend.")
+	// default:
+	// 	println("Invalid day.")
+	// }
+
+	// number := 15
+
+	// switch {
+	// case number < 10:
+	// 	println("The number is less than 10.")
+	// case number >= 10 && number < 20:
+	// 	println("The number is between 10 and 19.")
+	// default:
+	// 	println("The number is 20 or greater.")
+	// }
+
+	// num := 2
+
+	// switch {
+	// case num > 1:
+	// 	println("One")
+	// case num == 2:
+	// 	println("Two")
+	// 	fallthrough
+	// case num == 3:
+	// 	println("Three")
+	// default:
+	// 	println("Other number")
+	// }
+
+	checkType(10)
+	checkType(3.14)
+	checkType(22 / 7.0)
+	checkType("Hello")
+
+}
+
+func checkType(x interface{}) {
+	switch x.(type) {
+	case int:
+		println("It's an integer.")
+	case string:
+		println("It's a string.")
+	case bool:
+		println("It's a boolean.")
+	case float64:
+		println("It's a float.")
+	default:
+		println("Unknown type.")
+	}
+}

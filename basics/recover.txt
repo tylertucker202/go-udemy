@@ -1,0 +1,22 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Starting process")
+	process(4)
+	process(-5)
+	fmt.Println("Process completed")
+}
+
+func process(input int) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Recovered in process function: %v (type: %T)\n", r, r)
+		}
+	}()
+	if input < 0 {
+		panic(fmt.Sprintf("Negative input: %d", input))
+	}
+	fmt.Printf("Processing input: %d\n", input)
+}

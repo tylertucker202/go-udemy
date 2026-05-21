@@ -1,0 +1,38 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// var ptr *int
+	// fmt.Println(ptr)
+
+	// var ptr *int = nil
+	// fmt.Println(ptr)
+
+	// var ptr *int = new(int)
+	// fmt.Println(ptr)
+	// fmt.Println(*ptr)
+
+	// var ptr *int = new(int)
+	// *ptr = 42
+	// fmt.Println(ptr)
+	// fmt.Println(*ptr)
+
+	var x int = 42
+	var ptr *int = &x // reference operator to get the address of x
+	fmt.Println(ptr)
+	fmt.Println(*ptr) // dereferencing a pointer
+
+	// if ptr != nil {
+	// 	fmt.Println("Pointer is not nil")
+	// } else {
+	// 	fmt.Println("Pointer is nil")
+	// }
+	modifyValue(ptr)
+	fmt.Println(*ptr)
+}
+
+func modifyValue(ptr *int) {
+	*ptr++
+}

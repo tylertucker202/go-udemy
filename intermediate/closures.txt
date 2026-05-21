@@ -1,0 +1,44 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// sequence := adder()
+
+	// fmt.Println(sequence())
+	// fmt.Println(sequence())
+	// fmt.Println(sequence())
+	// fmt.Println(sequence())
+
+	// sequence2 := adder()
+
+	// fmt.Println(sequence2())
+	// fmt.Println(sequence2())
+
+	subtraction := func() func(int) int {
+		countdown := 99
+		return func(x int) int {
+			countdown -= x
+			return countdown
+		}
+	}
+
+	subtract := subtraction()
+
+	fmt.Println(subtract(5))
+	fmt.Println(subtract(3))
+	fmt.Println(subtract(2))
+
+}
+
+func adder() func() int {
+	i := 0
+	fmt.Println("previous value of i: ", i)
+	return func() int {
+		i++
+		fmt.Println("current value of i: ", i)
+		return i
+	}
+
+}

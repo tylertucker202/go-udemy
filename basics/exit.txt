@@ -1,0 +1,12 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	defer fmt.Println("Deffered Statement")
+	fmt.Println("Starting process")
+	os.Exit(1)
+}
