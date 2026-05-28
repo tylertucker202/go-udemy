@@ -1,0 +1,67 @@
+package main
+
+import (
+	"fmt"
+	"unicode/utf8"
+)
+
+func main() {
+
+	message := "Hello,\n世界"
+	message1 := "Hello,\t世界"
+	message2 := "Hello,\r世界"
+	rawMessage := `Hello\nGo`
+	name := "Alice"
+
+	fmt.Println(message)
+	fmt.Println(message1)
+	fmt.Println(message2)
+	fmt.Println(rawMessage)
+
+	fmt.Println("Length of message variable is", len(message))
+	fmt.Println("Length of raw message is", len(rawMessage))
+	fmt.Println("The first character is", message[0])
+
+	str1 := "Apple"
+	str2 := "bananna"
+	str3 := "app"
+
+	fmt.Println("Comparing str1 and str2:", str1 < str2)
+	fmt.Println("Comparing str1 and str3:", str1 < str3)
+
+	for i, r := range message {
+		fmt.Printf("Index: %d, Rune: %c\n", i, r)
+		fmt.Printf("%x\n", r) // hexadecimal representation of the rune
+		fmt.Printf("%U\n", r) // Unicode format
+	}
+
+	fmt.Println("Rune count:", utf8.RuneCountInString(message))
+
+	greetingWithName := message + name
+	fmt.Println(greetingWithName)
+
+	var ch rune = 'a' //single quotes for runes
+
+	jch := '世' // a Chinese character
+	gch := 'გ' // a Georgian character
+
+	fmt.Printf("Rune ch: %c, Unicode: %U\n", ch, ch)
+	fmt.Printf("Rune jch: %c, Unicode: %U\n", jch, jch)
+	fmt.Printf("Rune gch: %c, Unicode: %U\n", gch, gch)
+
+	cstr := string(ch)
+	fmt.Printf("Type of cstr: %T\n", cstr)
+
+	const NIHONGO = "日本語" // "Nihongo" in Japanese
+	fmt.Println(NIHONGO)
+
+	jhello := "こんにちは" // "Konnichiwa" in Japanese
+	fmt.Println(jhello)
+
+	for _, runeValue := range jhello {
+		fmt.Printf("Rune: %c, int: %v, Unicode: %U\n", runeValue, runeValue, runeValue)
+	}
+
+	r := '\U0001F600' // smile emoji
+	fmt.Printf("Rune r: %c, Unicode: %U\n", r, r)
+}

@@ -1,0 +1,72 @@
+package main
+
+import "fmt"
+
+type Rectangle struct {
+	width  float64
+	height float64
+}
+
+// Method to calculate the area of the rectangle
+func (r Rectangle) Area() float64 {
+	return r.width * r.height
+}
+
+// Method to calculate the perimeter of the rectangle
+func (r Rectangle) Perimeter() float64 {
+	return 2 * (r.width + r.height)
+}
+
+// Method with pointer reciever
+func (r *Rectangle) Scale(factor float64) {
+	r.width *= factor
+	r.height *= factor
+}
+
+type MyInt int
+
+// Method for MyInt type
+func (m MyInt) IsEven() bool {
+	return m%2 == 0
+}
+
+func (MyInt) welcomeMessage() string {
+	return "Welcome!"
+}
+
+// struct embedding
+type Person struct {
+	Name string
+	Age  int
+}
+
+type Employee struct {
+	Person // Embedding Person struct
+	ID     int
+}
+
+type Shape struct {
+	Rectangle
+}
+
+func main() {
+	rect := Rectangle{width: 5, height: 3}
+	fmt.Printf("Area of the rectangle: %.2f\n", rect.Area())
+	fmt.Printf("Perimeter of the rectangle: %.2f\n", rect.Perimeter())
+	rect.Scale(2)
+	fmt.Printf("Scaled area of the rectangle: %.2f\n", rect.Area())
+	fmt.Printf("Scaled perimeter of the rectangle: %.2f\n", rect.Perimeter())
+
+	var num MyInt = 10
+	fmt.Printf("Is %d even? %t\n", num, num.IsEven())
+	fmt.Println(num.welcomeMessage())
+
+	employee := Employee{
+		Person: Person{Name: "Alice", Age: 30},
+		ID:     12345,
+	}
+	fmt.Printf("Employee Name: %s, Age: %d, ID: %d\n", employee.Name, employee.Age, employee.ID)
+
+	shape := Shape{Rectangle{width: 4, height: 2}}
+	fmt.Printf("Area of the shape: %.2f\n", shape.Area())
+}

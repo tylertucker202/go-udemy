@@ -1,0 +1,65 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// integer formatting
+	i := 15.5
+	string := "Hello, World!"
+
+	fmt.Printf("%v\n", i)
+	fmt.Printf("%#v\n", i)
+	fmt.Printf("%T\n", i)
+	fmt.Printf("%v%%\n", i)
+
+	fmt.Printf("%v\n", string)
+	fmt.Printf("%#v\n", string)
+	fmt.Printf("%T\n", string)
+
+	//integer formatting
+	int := 18
+	fmt.Printf("%b\n", int)   //binary
+	fmt.Printf("%d\n", int)   //decimal
+	fmt.Printf("%+d\n", int)  //decimal
+	fmt.Printf("%o\n", int)   //octal
+	fmt.Printf("%O\n", int)   //octal
+	fmt.Printf("%x\n", int)   //hexadecimal
+	fmt.Printf("%X\n", int)   //hexadecimal with upper-case letters
+	fmt.Printf("%#x\n", int)  //hexadecimal
+	fmt.Printf("%4d\n", int)  //decimal with right-justified padding
+	fmt.Printf("%-4d\n", int) //decimal with left-justified padding
+	fmt.Printf("%04d\n", int) //decimal with leading zeros
+	fmt.Printf("\n")          //decimal with leading zeros
+
+	//string formatting
+
+	txt := "World"
+
+	fmt.Printf("%s\n", txt)   //string
+	fmt.Printf("%q\n", txt)   //double-quoted string
+	fmt.Printf("%8s\n", txt)  //string with right-justified padding
+	fmt.Printf("%-8s\n", txt) //string with left-justified padding
+	fmt.Printf("%x\n", txt)   //hexadecimal with two characters per byte
+	fmt.Printf("%X\n", txt)   //hexadecimal with two characters per byte, upper-case letters
+
+	//boolean formatting
+
+	b := true
+	f := false
+
+	fmt.Printf("%t\n", b) //boolean
+	fmt.Printf("%v\n", b) //boolean
+	fmt.Printf("%t\n", f) //boolean
+
+	//float formatting
+
+	flt := 9180000.00
+
+	fmt.Printf("%e\n", flt)    //scientific notation
+	fmt.Printf("%f\n", flt)    //decimal point but no exponent, e.g. 123.456
+	fmt.Printf("%.2f\n", flt)  // default width precision 2
+	fmt.Printf("%6.2f\n", flt) // width 6 precision 2
+	fmt.Printf("%g\n", flt)    //exponent as needed
+
+}

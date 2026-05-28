@@ -1,0 +1,40 @@
+package main
+
+import "fmt"
+
+type person struct {
+	name string
+	age  int
+}
+
+type Employee struct {
+	person
+	empId  int
+	salary float64
+}
+
+func (p person) greet() {
+	fmt.Printf("Hello, my name is %s and I am %d years old.\n", p.name, p.age)
+}
+
+func (e Employee) greet() {
+	e.person.greet()
+	fmt.Printf("I am an employee with ID %d and a salary of %.2f.\n", e.empId, e.salary)
+}
+
+func main() {
+	p := person{name: "John", age: 30}
+	e := Employee{person: p, empId: 12345, salary: 50000}
+
+	// Accessing fields of the embedded struct
+	fmt.Println("Employee Name:", e.name) // Accessing name from person
+	fmt.Println("Employee Age:", e.age)   // Accessing age from person
+	fmt.Println("Employee ID:", e.empId)
+	fmt.Println("Employee Salary:", e.salary)
+	// Calling method of the embedded struct
+	e.greet() // This will call the greet method of the embedded person struct
+
+	// Modifying fields of the embedded struct
+	e.name = "Jane"
+	e.age = 28
+}

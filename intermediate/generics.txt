@@ -1,0 +1,63 @@
+package main
+
+import "fmt"
+
+func swap[T any](a, b T) (T, T) {
+	return b, a
+}
+
+type Stack[T any] struct {
+	elements []T
+}
+
+func (s *Stack[T]) push(element T) {
+	s.elements = append(s.elements, element)
+}
+
+func (s *Stack[T]) pop() (T, bool) {
+	if len(s.elements) == 0 {
+		var zero T
+		return zero, false
+	}
+	lastIndex := len(s.elements) - 1
+	element := s.elements[lastIndex]
+	s.elements = s.elements[:lastIndex]
+	return element, true
+}
+
+func (s Stack[T]) printAll() {
+	for _, element := range s.elements {
+		fmt.Println(element)
+	}
+}
+
+func main() {
+	a, b := 1, 2
+	a, b = swap(a, b)
+	fmt.Println(a, b)
+
+	x1, y1 := "hello", "world"
+	x1, y1 = swap(x1, y1)
+	fmt.Println(x1, y1)
+
+	s := Stack[int]{}
+	s.push(1)
+	s.push(2)
+	s.push(4)
+	fmt.Println(s.elements)
+	element, ok := s.pop()
+	if ok {
+		fmt.Println("Popped element:", element)
+	} else {
+		fmt.Println("Stack is empty")
+	}
+
+	s.printAll()
+	for {
+		element, ok = s.pop()
+		if !ok {
+			fmt.Println("Stack is empty, cannot pop")
+			break
+		}
+	}
+}

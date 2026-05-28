@@ -1,0 +1,65 @@
+package main
+
+import "fmt"
+
+type Person struct {
+	firstName string
+	lastName  string
+	age       int
+	address   Address
+	PhoneHomeCell
+}
+
+type Address struct {
+	city    string
+	country string
+}
+
+type PhoneHomeCell struct {
+	home string
+	cell string
+}
+
+func (p Person) fullName() string {
+	return p.firstName + " " + p.lastName
+}
+
+func (p *Person) updateAge(newAge int) {
+	p.age = newAge
+}
+
+func main() {
+	p1 := Person{firstName: "Alice",
+		lastName: "Smith",
+		age:      30,
+		address:  Address{city: "New York", country: "USA"},
+		PhoneHomeCell: PhoneHomeCell{
+			home: "123-456-7890",
+			cell: "987-654-3210",
+		},
+	}
+	p2 := Person{firstName: "Bob", lastName: "Johnson", age: 25, address: Address{city: "Los Angeles", country: "USA"}}
+	p22 := Person{firstName: "Bob", lastName: "Johnson", age: 25, address: Address{city: "Los Angeles", country: "USA"}}
+	p3 := Person{firstName: "Charlie", age: 35, address: Address{city: "Chicago", country: "USA"}}
+
+	fmt.Println(p1.firstName, p1.lastName, p1.age, p1.address.city, p1.address.country)
+	fmt.Println(p1.home, p1.cell) // anonymous struct fields can be accessed directly
+	fmt.Println(p2.firstName, p2.lastName, p2.age, p2.address.city, p2.address.country)
+	fmt.Println(p3.firstName, p3.lastName, p3.age, p3.address.city, p3.address.country)
+
+	fmt.Println("Are p1 and p2 equal?", p1 == p2)   // Structs can be compared for equality if all fields are comparable
+	fmt.Println("Are p2 and p22 equal?", p2 == p22) // Structs can be compared for equality if all fields are comparable
+
+	// Anonymous Structs
+	user := struct {
+		username string
+		email    string
+	}{username: "user123", email: "user123@example.com"}
+
+	fmt.Println(user.username, user.email)
+
+	fmt.Println(p1.fullName())
+	p1.updateAge(31)
+	fmt.Println(p1.age)
+
+}
