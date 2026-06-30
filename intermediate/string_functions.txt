@@ -1,0 +1,113 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	// str := "Hello, World!"
+	// str1 := "Go is great!"
+
+	// fmt.Println("Length of string:", len(str))
+	// fmt.Println("Substring (0-5):", str[0:5])
+	// fmt.Println("Concatenation:", str+" "+str1)
+	// fmt.Println("Uppercase:", toUpperCase(str))
+
+	// // string conversion
+	// num := 42
+	// strNum := strconv.Itoa(num)
+	// fmt.Println("String representation of number:", strNum)
+
+	// fruits := "apple, banana, cherry"
+	// fruits1 := "apple-banana-cherry"
+
+	// parts := strings.Split(fruits, ", ")
+	// parts1 := strings.Split(fruits1, "-")
+	// fmt.Println("Split fruits:", parts)
+	// fmt.Println("Split fruits with '-':", parts1)
+
+	// countries := []string{"USA", "Canada", "Mexico"}
+	// joinedCountries := strings.Join(countries, " | ")
+	// fmt.Println("Joined countries:", joinedCountries)
+
+	// // string comparison
+	// strA := "GoLang"
+	// strB := "golang"
+	// fmt.Println("Are strings equal?", strA == strB)
+	// fmt.Println("Are strings contain subset?", strings.Contains(strA, "Lang"))
+	// fmt.Println("Are strings equal (case-insensitive)?", strings.EqualFold(strA, strB))
+
+	// // replace substring
+	// original := "I love Go programming!"
+	// replaced := strings.Replace(original, "Go", "Python", 1)
+	// fmt.Println("Original string:", original)
+	// fmt.Println("Replaced string:", replaced)
+
+	// // trim spaces
+	// strWithSpaces := "   Hello, Go!   "
+	// trimmedStr := strings.TrimSpace(strWithSpaces)
+	// fmt.Println("Original string with spaces:", strWithSpaces)
+	// fmt.Println("Trimmed string:", trimmedStr)
+
+	// // upper/lower case
+	// fmt.Println("Lowercase:", strings.ToLower(strWithSpaces))
+	// fmt.Println("uppercase:", strings.ToUpper(strWithSpaces))
+
+	// // repeat string
+	// repeated := strings.Repeat("Go! ", 3)
+	// fmt.Println("Repeated string:", repeated)
+
+	// // count occurrences
+	// count := strings.Count(str, "o")
+	// fmt.Println("Count of 'o' in string:", count)
+
+	// // has prefix/suffix
+	// fmt.Println("Does string have prefix 'Hello'?", strings.HasPrefix(str, "Hello"))
+	// fmt.Println("Does string have suffix 'World!'?", strings.HasSuffix(str, "World!"))
+
+	// // regex to find numbers in string
+	// str5 := "Hello, 123 Go! 11"
+	// re := regexp.MustCompile(`[0-9]+`)
+	// numbers := re.FindAllString(str5, -1)
+	// fmt.Println("Numbers in string:", numbers)
+
+	// //utf8 string
+	// str6 := "Hello, 世界!"
+	// fmt.Println("Length of UTF-8 string:", utf8.RuneCountInString(str6))
+	// fmt.Println("Number of runes in UTF-8 string:", len([]rune(str6)))
+
+	var builder strings.Builder
+	builder.WriteString("Hello, ")
+	builder.WriteString("Go!")
+	combined := builder.String()
+	fmt.Println("Combined string using Builder:", combined)
+
+	// using write rune to builder
+	builder.WriteRune(' ')
+	builder.WriteRune('W')
+	builder.WriteRune('o')
+	builder.WriteRune('r')
+	builder.WriteRune('l')
+	builder.WriteRune('d')
+	builder.WriteRune('!')
+	combinedWithRunes := builder.String()
+	fmt.Println("Combined string with runes:", combinedWithRunes)
+
+	//reset builder
+	builder.Reset()
+	builder.WriteString("Go is awesome!")
+	fmt.Println("After resetting builder:", builder.String())
+}
+
+func toUpperCase(s string) string {
+	result := ""
+	for _, char := range s {
+		if char >= 'a' && char <= 'z' {
+			result += string(char - 32)
+		} else {
+			result += string(char)
+		}
+	}
+	return result
+}

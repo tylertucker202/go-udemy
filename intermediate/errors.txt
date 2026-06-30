@@ -1,0 +1,88 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"math"
+)
+
+func sqrt(x float64) (float64, error) {
+	if x < 0 {
+		return 0, errors.New("cannot compute square root of a negative number")
+	}
+	return math.Sqrt(x), nil
+}
+
+func process(data []byte) error {
+	if len(data) == 0 {
+		return errors.New("data cannot be empty")
+	}
+	// Process the data...
+	return nil
+}
+
+func main() {
+
+	// results, err := sqrt(-1)
+	// if err != nil {
+	// 	println("Error:", err.Error())
+	// } else {
+	// 	println("Square root:", results)
+	// }
+
+	// results, err = sqrt(4)
+	// if err != nil {
+	// 	println("Error:", err.Error())
+	// } else {
+	// 	println("Square root:", results)
+	// }
+
+	// err := process([]byte{})
+	// if err != nil {
+	// 	fmt.Println("Error:", err.Error())
+	// 	return
+	// }
+	// fmt.Println("Data processed successfully")
+
+	// error interface builtin package
+	// eerr := eprocess()
+	// if eerr != nil {
+	// 	fmt.Println("Error:", eerr.Error())
+	// 	return
+	// }
+	// fmt.Println("Data processed successfully")
+
+	err := readData()
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		return
+	}
+	fmt.Println("Data read successfully")
+
+}
+
+type myError struct {
+	message string
+}
+
+func (e *myError) Error() string {
+	return fmt.Sprintf("Error: %s", e.message)
+}
+
+func eprocess() error {
+	return &myError{message: "something went wrong"}
+}
+
+func readData() error {
+	// Simulate a data reading error
+	err := readConfig()
+	if err != nil {
+		return fmt.Errorf("failed to read data from source: %w", err)
+	}
+	return nil
+}
+
+func readConfig() error {
+	// Simulate a configuration error
+	return errors.New("failed to read configuration file")
+}

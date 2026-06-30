@@ -1,0 +1,98 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+	"text/template"
+)
+
+func main() {
+
+	//tmpl, err := template.New("example").Parse("Hello, {{.Name}}!")
+	// tmpl := template.Must(template.New("example").Parse("Hello, {{.Name}}!"))
+
+	// data := map[string]interface{}{
+	// 	"Name": "World",
+	// }
+
+	// err := tmpl.Execute(os.Stdout, data)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("Enter your name:")
+	name, _ := reader.ReadString('\n')
+
+	// data := map[string]interface{}{
+	// 	"Name":         strings.TrimSpace(name),
+	// }
+
+	templates := map[string]string{
+		"greeting":     "Hello, {{.Name}}!",
+		"error":        "An error occurred: {{.Error}}",
+		"notification": "You have a new notification, {{.Name}}: {{.Notification}}!",
+	}
+
+	//parse and store templates
+	parsedTemplates := make(map[string]*template.Template)
+
+	for key, tmplStr := range templates {
+		parsedTemplates[key] = template.Must(template.New(key).Parse(tmplStr))
+	}
+
+	//execute templates
+
+	for {
+		fmt.Println("Menu:")
+		fmt.Println("1. Greeting")
+		fmt.Println("2. Error")
+		fmt.Println("3. Notification")
+		fmt.Println("4. Exit")
+		fmt.Print("Choose an option: ")
+
+		option, _ := reader.ReadString('\n')
+		option = strings.TrimSpace(option)
+
+		var data map[string]interface{}
+		var tmpl *template.Template
+
+		switch option {
+		case "1":
+			tmpl = parsedTemplates["greeting"]
+			data = map[string]interface{}{
+				"Name": strings.TrimSpace(name),
+			}
+		case "2":
+			fmt.Println("Print an error message:")
+			errorMsg, _ := reader.ReadString('\n')
+			tmpl = parsedTemplates["error"]
+			data = map[string]interface{}{
+				"Name":  strings.TrimSpace(name),
+				"Error": strings.TrimSpace(errorMsg),
+			}
+		case "3":
+			fmt.Println("Print an notification message:")
+			notificationMsg, _ := reader.ReadString('\n')
+			tmpl = parsedTemplates["notification"]
+			data = map[string]interface{}{
+				"Name":         strings.TrimSpace(name),
+				"Notification": strings.TrimSpace(notificationMsg),
+			}
+		case "4":
+			fmt.Println("Exiting...")
+			return
+		default:
+			fmt.Println("Invalid option, please try again.")
+			continue
+		}
+		err := tmpl.Execute(os.Stdout, data)
+		if err != nil {
+			fmt.Printf("Error executing template: %v\n", err)
+		}
+		fmt.Println("\n---")
+	}
+}

@@ -1,0 +1,22 @@
+package main
+
+import "fmt"
+
+func main() {
+	num := 42
+	fmt.Printf("%05d\n", num) // Output: 00042
+
+	message := "Hello, World!"
+	fmt.Printf("|%30s|\n", message)  // Output: |             Hello, World!|
+	fmt.Printf("|%-30s|\n", message) // Output: |Hello, World!             |
+
+	message1 := "Hello \nWorld!"
+	fmt.Println(message1) // Output: Hello
+	//         World!
+
+	message2 := `Hello \tWorld!` //use backticks to preserve the literal value of the string
+	fmt.Println(message2)        // Output: Hello \tWorld!
+
+	sql := `SELECT * FROM users WHERE name = 'John Doe'`
+	fmt.Println(sql) // Output: SELECT * FROM users WHERE name = 'John Doe'
+}

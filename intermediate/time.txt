@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	currentTime := time.Now()
+	fmt.Println("Current Time:", currentTime)
+
+	formattedTime := currentTime.Format("2006-01-02 15:04:05")
+	fmt.Println("Formatted Time:", formattedTime)
+
+	// specific date
+	specificTime := time.Date(2022, time.December, 25, 10, 30, 0, 0, time.UTC)
+	fmt.Println("Specific Time:", specificTime)
+
+	// time difference
+	duration := time.Since(specificTime)
+	fmt.Println("Duration since specific time:", duration)
+
+	// parse time
+	parsedTime, err := time.Parse("2006-01-02 15:04:05", "2022-12-25 10:30:00")
+	if err != nil {
+		fmt.Println("Error parsing time:", err)
+	} else {
+		fmt.Println("Parsed Time:", parsedTime)
+	}
+
+	parsedTime1, _ := time.Parse("06-01-02 15:04:05", "20-12-25 10:30:00") // 2006-01-02 15:04:05
+	fmt.Println("Parsed Time1:", parsedTime1)
+
+	//Formatting time
+	t := time.Now()
+	fmt.Println("Default format:", t.String())
+	fmt.Println("Custom format:", t.Format("Monday 06-01-02 04m15h"))
+
+	oneDayLater := t.Add(24 * time.Hour)
+	fmt.Println("One day later:", oneDayLater)
+
+	fmt.Println("Rounded time:", t.Round(time.Hour))
+
+	loc, _ := time.LoadLocation("America/New_York")
+	nyTime := t.Round(time.Hour).In(loc) // what is the hour-rounded time in new york?
+	fmt.Println("New York Time:", nyTime)
+
+	fmt.Println("Truncated time: ", t.Truncate(time.Hour))
+
+	tInNY := time.Now().In(loc)
+	fmt.Println("Current time in New York:", tInNY)
+}

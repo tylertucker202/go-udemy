@@ -1,0 +1,56 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+
+	numStr := "12345"
+
+	// Convert string to integer
+	num, err := strconv.Atoi(numStr)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
+	fmt.Println("Converted number:", num)
+
+	// Convert integer back to string
+	numStrBack := strconv.Itoa(num)
+	fmt.Println("Converted back to string:", numStrBack)
+
+	numistr, err := strconv.ParseInt(numStr, 10, 64)
+	if err != nil {
+		fmt.Println("Error converting string to int64:", err)
+		return
+	}
+	fmt.Println("Converted to int64:", numistr)
+
+	floatstr := "3.14"
+	floatNum, err := strconv.ParseFloat(floatstr, 64)
+	if err != nil {
+		fmt.Println("Error converting string to float64:", err)
+		return
+	}
+	fmt.Printf("Converted to float64: %.2f\n", floatNum)
+
+	binaryStr := "1010"
+	binaryNum, err := strconv.ParseInt(binaryStr, 2, 64)
+	if err != nil {
+		fmt.Println("Error converting binary string to int64:", err)
+		return
+	}
+	fmt.Printf("Converted binary string to int64: %d\n", binaryNum)
+
+	hexstr := "1A"
+	hexNum, err := strconv.ParseInt(hexstr, 16, 64)
+	if err != nil {
+		fmt.Println("Error converting hex string to int64:", err)
+		return
+	}
+	fmt.Printf("Converted hex string to int64: %d\n", hexNum)
+
+}

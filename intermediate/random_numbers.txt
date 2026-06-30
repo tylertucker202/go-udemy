@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	// val := rand.New(rand.NewSource(42)) //fixing the seed
+	// fmt.Println(val.Intn(6) + 5)        // Generate a random number between 5 and 10
+
+	rand.Seed(time.Now().UnixNano())
+	randomNumber := rand.Intn(100) + 1 // Generate a random number between 1 and 100
+	fmt.Println("Random Number:", randomNumber)
+
+	fmt.Println("Random Float:", rand.Float64())
+
+	for {
+		fmt.Println("Welcome to the Dice Game!")
+		fmt.Println("1. Roll the dice")
+		fmt.Println("2. Exit")
+		var choice int
+		fmt.Scanln(&choice)
+
+		if choice == 1 {
+			diceRoll := rand.Intn(6) + 1 // Simulate rolling a six-sided die
+			fmt.Printf("You rolled a %d!\n", diceRoll)
+		} else if choice == 2 {
+			fmt.Println("Thanks for playing! Goodbye!")
+			break
+		} else {
+			fmt.Println("Invalid choice. Please try again.")
+		}
+	}
+
+}

@@ -1,0 +1,17 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	currentTime := time.Now()
+	epoch := currentTime.Unix()
+	fmt.Println("Current Time:", currentTime)
+	fmt.Println("Epoch Time:", epoch)
+
+	// Convert epoch back to time
+	convertedTime := time.Unix(epoch, 0)
+	fmt.Println("Converted Time:", convertedTime.Format("2006"))
+}

@@ -1,0 +1,27 @@
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+)
+
+func main() {
+
+	data := []byte("He~llo, Base64 Encoding")
+	encoded := base64.StdEncoding.EncodeToString(data)
+	fmt.Println(encoded)
+
+	// Decode
+	decoded, err := base64.StdEncoding.DecodeString(encoded)
+
+	if err != nil {
+		fmt.Println("Error in decoding:", err)
+		return
+	}
+	fmt.Println(string(decoded))
+
+	// URL safe, avoice '/' and '+'
+	urlSafeEncoded := base64.URLEncoding.EncodeToString(data)
+	fmt.Println("URL safe encoded:", urlSafeEncoded)
+
+}

@@ -1,0 +1,48 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	err := doSomething()
+	if err != nil {
+		fmt.Println("An error occurred:", err)
+		return
+	}
+
+	fmt.Println("Operation successful")
+}
+
+type customError struct {
+	code int
+	msg  string
+	err  error
+}
+
+func (e *customError) Error() string {
+	return fmt.Sprintf("Error %d: %s, %v", e.code, e.msg, e.err)
+}
+
+// func newCustomError(code int, message string) error {
+// 	return &customError{code: code, msg: message}
+// }
+
+func doSomething() error {
+	err := doSomethingElse()
+	if err != nil {
+		return &customError{
+			code: 500,
+			msg:  "Failed to do something",
+			err:  err,
+		}
+	}
+	return nil
+}
+
+func doSomethingElse() error {
+	return &customError{
+		code: 500,
+		msg:  "Internal Server Error",
+		err:  nil,
+	}
+}
