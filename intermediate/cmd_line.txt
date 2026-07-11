@@ -1,0 +1,27 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+)
+
+func main() {
+
+	// fmt.Println("Command:", os.Args[0])
+
+	// for _, arg := range os.Args[1:] {
+	// 	fmt.Println("arg:", arg)
+	// }
+
+	// Define flags
+	var name string
+	var age int
+	var male bool
+	flag.StringVar(&name, "name", "default name", "Name of the user.")
+	flag.IntVar(&age, "age", 0, "Age of the user.")
+	flag.BoolVar(&male, "male", true, "default is true, if false then female.")
+	flag.Parse()
+	fmt.Println("Name:", name)
+	fmt.Println("Age:", age)
+	fmt.Println("Male:", male)
+}

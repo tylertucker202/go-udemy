@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
+
+func checkError(err error) {
+	if err != nil {
+		fmt.Println("Error:", err)
+		panic(err)
+	}
+}
+
+func main() {
+
+	err := os.Mkdir("testdir", 0755)
+	checkError(err)
+
+	defer os.RemoveAll("testdir")
+
+	err = os.WriteFile("testdir/file.txt", []byte("Hello, World!"), 0644)
+	checkError(err)
+
+	err = os.MkdirAll("testdir/subdir", 0755)
+	checkError(err)
+	err = os.MkdirAll("testdir/subdir/child1", 0755)
+	checkError(err)
+	err = os.MkdirAll("testdir/subdir/child2", 0755)
+	checkError(err)
+	err = os.MkdirAll("testdir/subdir/child3", 0755)
+	checkError(err)
+
+	err = os.WriteFile("testdir/subdir/parent.txt", []byte("Hello, World!"), 0644)
+	checkError(err)
+
+	result, err := os.ReadDir("testdir/subdir")
+	checkError(err)
+
+	for _, entry := range result {
+		fmt.Println(entry.Name(), entry.IsDir(), entry.Type())
+	}
+
+	result, err = os.ReadDir(".")
+	checkError(err)
+
+	for _, entry := range result {
+		fmt.Println(entry.Name(), entry.IsDir(), entry.Type())
+	}
+
+	//filepath.Walk filepath.WalkDir
+	fmt.Println("WalkDir")
+	err = filepath.WalkDir("testdir", func(path string, info os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		fmt.Println(path, info.IsDir(), info)
+		return nil
+	})
+	checkError(err)
+
+}

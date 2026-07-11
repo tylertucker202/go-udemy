@@ -1,0 +1,28 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Person struct {
+	FirstName string `json:"first_name" db:"firstn"`
+	LastName  string `json:"last_name,omitempty" db:"lastn"`
+	Age       int    `json:"-" db:"age"`
+}
+
+func main() {
+
+	Person1 := Person{
+		FirstName: "John",
+		LastName:  "Doe",
+		Age:       30,
+	}
+
+	jsonData, err := json.Marshal(Person1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(jsonData))
+
+}

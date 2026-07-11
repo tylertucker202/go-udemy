@@ -1,0 +1,46 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+func main() {
+
+	var stringFlag string
+	flag.StringVar(&stringFlag, "user", "default", "A string flag for the main command")
+
+	flag.Parse()
+
+	fmt.Println("Main command flag:")
+	fmt.Println("User:", stringFlag)
+
+	subcommand1 := flag.NewFlagSet("firstSub", flag.ExitOnError)
+	subcommand2 := flag.NewFlagSet("secondSub", flag.ExitOnError)
+
+	firstFlag := subcommand1.Bool("processing", false, "Enable processing for the first subcommand")
+	secondFlag := subcommand1.Int("bytes", 0, "Number of bytes to process for the first subcommand")
+
+	flagsc2 := subcommand2.String("language", "Go", "Programming language to use for the second subcommand")
+
+	if len(os.Args) < 2 {
+		fmt.Println("expected 'firstSub' or 'secondSub' subcommands")
+		os.Exit(1)
+	}
+
+	switch os.Args[1] {
+	case "firstSub":
+		subcommand1.Parse(os.Args[2:])
+		fmt.Println("First subcommand flags:")
+		fmt.Println("Processing:", *firstFlag)
+		fmt.Println("Bytes:", *secondFlag)
+	case "secondSub":
+		subcommand2.Parse(os.Args[2:])
+		fmt.Println("Second subcommand flags:")
+		fmt.Println("Language:", *flagsc2)
+	default:
+		fmt.Println("expected 'firstSub' or 'secondSub' subcommands")
+		os.Exit(1)
+	}
+}

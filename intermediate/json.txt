@@ -1,0 +1,79 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Person struct {
+	FirstName string  `json:"first_name"`
+	Age       int     `json:"age,omitempty"`
+	Email     string  `json:"email,omitempty"`
+	Address   Address `json:"address"`
+}
+
+type Address struct {
+	Street string `json:"street"`
+	City   string `json:"city"`
+	State  string `json:"state"`
+	Zip    string `json:"zip"`
+}
+
+func main() {
+
+	person := Person{
+		FirstName: "John",
+		Address: Address{
+			Street: "123 Main St",
+			City:   "Anytown",
+			State:  "CA",
+			Zip:    "12345",
+		},
+	}
+
+	// Convert the struct to JSON
+	jsonData, err := json.Marshal(person)
+	if err != nil {
+		panic(err)
+	}
+
+	// Print the JSON data
+	fmt.Println(string(jsonData))
+
+	jsonData1 := `{"first_name": "John", "address": {"street": "123 Main St", "city": "Anytown", "state": "CA", "zip": "12345"}}`
+
+	var employee Employee
+	err = json.Unmarshal([]byte(jsonData1), &employee)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("First Name:", employee.FirstName)
+
+	listOfCityState := []Address{
+		{Street: "123 Main St", City: "Anytown", State: "CA", Zip: "12345"},
+		{Street: "456 Elm St", City: "Othertown", State: "NY", Zip: "67890"},
+	}
+	jsonData2, err := json.Marshal(listOfCityState)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(jsonData2))
+
+	//handling unknown json structure
+	jsonData3 := `{"street": "123 Main St", "city": "Anytown", "state": "CA", "zip": "12345"}`
+	var data map[string]interface{}
+
+	err = json.Unmarshal([]byte(jsonData3), &data)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(data)
+}
+
+type Employee struct {
+	FirstName string  `json:"first_name"`
+	EmpID     string  `json:"emp_id"`
+	Age       int     `json:"age,omitempty"`
+	Address   Address `json:"address"`
+}

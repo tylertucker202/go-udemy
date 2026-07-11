@@ -1,0 +1,21 @@
+package main
+
+import "os"
+
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func main() {
+
+	// file, err := os.CreateTemp("", "temporaryFile")
+	// checkError(err)
+	// defer file.Close()
+	// defer os.Remove(file.Name())
+
+	tempDir, err := os.MkdirTemp("", "tempdir")
+	checkError(err)
+	defer os.RemoveAll(tempDir)
+}

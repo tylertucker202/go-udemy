@@ -1,0 +1,97 @@
+package main
+
+import (
+	"encoding/xml"
+	"fmt"
+	"log"
+)
+
+type Person struct {
+	XMLName xml.Name `xml:"person"`
+	Name    string   `xml:"name"`
+	Age     int      `xml:"age"`
+	Address Address  `xml:"address"`
+	// Email   string   `xml:"email"`
+	Email string `xml:"-"`
+}
+
+type Address struct {
+	City  string `xml:"city"`
+	State string `xml:"state"`
+}
+
+func main() {
+
+	person := Person{
+		Name: "John Doe",
+		Age:  30,
+		Address: Address{
+			City:  "New York",
+			State: "NY",
+		},
+		Email: "john.doe@example.com",
+	}
+
+	// xmlData, err := xml.Marshal(person)
+	// if err != nil {
+	// 	log.Fatalln("Error marshalling data into xml", err)
+	// 	panic(err)
+	// }
+
+	xmlData, err := xml.MarshalIndent(person, "", " ")
+	if err != nil {
+		log.Fatalln("Error marshalling data into xml", err)
+		panic(err)
+	}
+
+	fmt.Println(string(xmlData))
+
+	// xmlRaw := `<person>
+	// <name>Jane Smith</name>
+	// <age>25</age>
+	// <address>
+	// 	<city>Los Angeles</city>
+	// 	<state>CA</state>
+	// </address>
+	// <email>jane.smith@example.com</email>
+	// </person>`
+
+	xmlRaw := `<person><name>John</name><age>25</age><address><city>New York</city><state>NY</state></address></person>`
+
+	var personxml Person
+	err = xml.Unmarshal([]byte(xmlRaw), &personxml)
+	if err != nil {
+		log.Fatalln("Error unmarshalling data from xml", err)
+		panic(err)
+	}
+
+	fmt.Printf("%+v\n", personxml)
+	fmt.Printf("local: %s\n", personxml.XMLName.Local)
+	fmt.Printf("namespace: %s\n", personxml.XMLName.Space)
+
+	book := Book{
+		ISBN:       "978-3-16-148410-0",
+		Title:      "The Go Programming Language",
+		Author:     "Alan A. A. Donovan",
+		Pseudo:     "Gopher",
+		PseudoAttr: "GopherAttr",
+	}
+
+	xmldataattr, err := xml.MarshalIndent(book, "", "  ")
+	if err != nil {
+		log.Fatalln("Error marshalling data into xml", err)
+		panic(err)
+	}
+
+	fmt.Println(string(xmldataattr))
+
+}
+
+type Book struct {
+	XMLName    xml.Name `xml:"book"`
+	ISBN       string   `xml:"isbn,attr"`
+	Title      string   `xml:"title,attr"`
+	Author     string   `xml:"author,attr"`
+	Pseudo     string   `xml:"pseudo"`
+	PseudoAttr string   `xml:"pseudoattr,attr"` //will be in the book tag
+}

@@ -1,0 +1,38 @@
+package main
+
+import (
+	"embed"
+	"fmt"
+	"io/fs"
+	"log"
+)
+
+//go:embed text.txt
+var content string
+
+//go:embed basics
+var basicsFolder embed.FS
+
+func main() {
+	fmt.Println(content)
+	content, err := basicsFolder.ReadFile("basics/map.txt")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	contentStr := string(content)
+	fmt.Println(contentStr)
+
+	err = fs.WalkDir(basicsFolder, "basics", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			fmt.Println("Error walking directory:", err)
+			return err
+		}
+		fmt.Println("Visited:", path)
+		return nil
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}

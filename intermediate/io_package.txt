@@ -1,0 +1,124 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"strings"
+)
+
+func readFromReader(reader io.Reader) {
+	buf := make([]byte, 1024)
+	n, err := reader.Read(buf)
+	if err != nil {
+		fmt.Println("Error reading from reader:", err)
+		return
+	}
+	fmt.Printf("Read %d bytes: %s\n", n, string(buf[:n]))
+}
+
+func writeToWriter(writer io.Writer, data []byte) {
+	n, err := writer.Write(data)
+	if err != nil {
+		fmt.Println("Error writing to writer:", err)
+		return
+	}
+	fmt.Printf("Wrote %d bytes: %s\n", n, string(data[:n]))
+}
+
+func closeResource(c io.Closer) {
+	err := c.Close()
+	if err != nil {
+		log.Fatalln("Error closing ", err)
+	}
+}
+
+func bufferExample() {
+	var buf bytes.Buffer // stack
+	buf.WriteString("Hello Buffer!")
+	fmt.Println(buf.String())
+}
+
+func multiReaderExample() {
+	r1 := strings.NewReader("Hello")
+	r2 := strings.NewReader("World")
+
+	mr := io.MultiReader(r1, r2)
+	buf := new(bytes.Buffer) // heap
+	_, err := buf.ReadFrom(mr)
+	if err != nil {
+		log.Fatalln("Error reading ", err)
+	}
+	fmt.Println(buf.String())
+}
+
+func pipeExample() {
+	pr, pw := io.Pipe()
+	go func() {
+		pw.Write([]byte("Hello Pipe"))
+		pw.Close()
+	}()
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(pr)
+
+	fmt.Println(buf.String())
+}
+
+func writeToFile(filepath string, data string) {
+	file, err := os.OpenFile(filepath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatalln("Error opening/creating file:", err)
+
+	}
+	defer closeResource(file)
+
+	_, err = file.Write([]byte(data))
+	if err != nil {
+		log.Fatalln("Error opening/creating file:", err)
+	}
+
+	// // Type(value)
+	// writer := io.Writer(file)
+	// _, err = writer.Write([]byte(data))
+	// if err != nil {
+	// 	log.Fatalln("Error opening/creating file:", err)
+	// }
+}
+
+func main() {
+	fmt.Println("====Read from Reader====")
+	readFromReader(strings.NewReader("Hello Reader!"))
+
+	fmt.Println("====Write to Writer=====")
+	var writer bytes.Buffer
+	writeToWriter(&writer, []byte("Hello Writer!"))
+
+	fmt.Println("====Buffer Example======")
+
+	fmt.Println("====Multireader Example=")
+
+	multiReaderExample()
+
+	fmt.Println("====Pipe Example========")
+	pipeExample()
+
+	// writeToWriter()
+	filepath := "io.txt"
+	writeToFile(filepath, "Hello File!")
+
+	resource := &MyResource{name: "test resource"}
+	closeResource(resource)
+
+}
+
+type MyResource struct {
+	name string
+}
+
+func (m MyResource) Close() error {
+	fmt.Println("Closing Resource", m.name)
+	return nil
+}
