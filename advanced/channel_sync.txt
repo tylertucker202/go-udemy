@@ -1,0 +1,73 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// func main() {
+
+// 	done := make(chan struct{})
+// 	go func() {
+// 		fmt.Println("Working...")
+// 		time.Sleep(2 * time.Second)
+// 		done <- struct{}{}
+// 	}()
+
+// 	<-done
+// 	fmt.Println("Finished.")
+
+// }
+
+// func main() {
+// 	ch := make(chan int)
+// 	go func() {
+// 		ch <- 9 //Blocking until a value is set
+// 		fmt.Println("Sent value")
+// 	}()
+
+// 	value := <-ch //Blocking until a value is sent
+
+// 	fmt.Println("Value: ", value)
+// }
+
+// =============== SYNCRONIZING MULTIPLE GO ROUTINES
+// func main() {
+// 	numGoroutines := 3
+// 	done := make(chan int)
+
+// 	for i := range numGoroutines {
+// 		go func(id int) {
+// 			fmt.Printf("Goroutine %d working...\n", id)
+// 			time.Sleep(1 * time.Second)
+// 			done <- id
+// 		}(i)
+// 	}
+
+// 	for range numGoroutines {
+// 		<-done //wait for each go routine to finish
+// 	}
+
+// }
+
+// ============= Syncronizing Data Exchange
+func main() {
+
+	data := make(chan string)
+
+	go func() {
+		for idx := range 5 {
+			idxs := string('0' + idx)
+			data <- "hello " + idxs
+		}
+		time.Sleep(100 * time.Millisecond)
+		close(data)
+	}()
+
+	for value := range data {
+		fmt.Println("Recieved value:", value, ":", time.Now())
+	} // loops over only on active channel, creates reciever
+	//each time and stops creating reciever (looping) once the
+	//channel is closed
+
+}

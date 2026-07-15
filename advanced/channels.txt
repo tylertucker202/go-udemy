@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	//syntax
+	//variable := make(chan type)
+
+	greeting := make(chan string)
+	// greetString := "Hello"
+
+	go func() {
+		// greeting <- greetString //blocking becuase it is continuously recieving values.
+		// greeting <- "World"
+		for _, e := range "abcde" {
+			greeting <- "Alphabet: " + string(e)
+		}
+	}()
+
+	// go func() {
+	// 	receiver := <-greeting //also blocking
+	// 	fmt.Println(receiver)
+	// 	receiver = <-greeting //also blocking
+	// 	fmt.Println(receiver)
+	// }()
+
+	for range 5 {
+		rcvr := <-greeting //also blocking
+		fmt.Println(rcvr)
+	}
+
+	time.Sleep(2 * time.Second)
+	fmt.Println("End of program.")
+}

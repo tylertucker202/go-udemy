@@ -1,0 +1,59 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	var err error
+
+	fmt.Println("Beginnning program")
+	go sayHello()
+
+	go func() {
+		err = doWork()
+	}()
+
+	go printNumbers()
+	go printLetters()
+	fmt.Println("After sayHello")
+	//wait for go routine to finish
+	time.Sleep(2 * time.Second)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+
+	} else {
+		fmt.Println("Work completed sucessfully")
+	}
+
+	fmt.Println("Exiting")
+
+}
+
+func sayHello() {
+	time.Sleep(1 * time.Second)
+	fmt.Println("Hello from Go Routine")
+}
+
+func printNumbers() {
+	for i := 0; i < 5; i++ {
+		fmt.Println(i)
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+
+func printLetters() {
+	for _, letter := range "ABCDE" {
+		fmt.Println(string(letter))
+		time.Sleep(100 * time.Millisecond)
+	}
+
+}
+
+func doWork() error {
+	time.Sleep(1 * time.Second)
+	return fmt.Errorf("an error occured in doWork")
+}

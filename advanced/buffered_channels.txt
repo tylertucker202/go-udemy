@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// BLOCKING ON RECIEVE ONLY IF THE BUFFER IS EMPTY
+	// ch := make(chan int, 2)
+
+	// go func() {
+	// 	time.Sleep(2 * time.Second)
+	// 	ch <- 1
+	// 	ch <- 2
+	// }()
+	// fmt.Println("Value: ", <-ch)
+	// fmt.Println("End of program")
+
+	// BLOCKING ON SEND ONLY IF THE BUFFER IS FULL
+	ch := make(chan int, 2)
+	ch <- 1
+	ch <- 2
+	fmt.Println("Receiving from buffer")
+	go func() {
+		//need this statement to get the ch before program exits
+		fmt.Println("Goroutine 2 second timer started.")
+		time.Sleep(2 * time.Second)
+		fmt.Println("Recieved:", <-ch)
+	}()
+	fmt.Println("Blocking starts")
+	ch <- 3 // Blocks because the buffer is full
+	fmt.Println("Blocking ends")
+	// fmt.Println("Recieved: ", <-ch)
+	// fmt.Println("Recieved: ", <-ch)
+	// fmt.Println("Buffered Channels")
+
+}
