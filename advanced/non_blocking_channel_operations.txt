@@ -1,0 +1,57 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	// // === NON BLOCKING RECIEVE OPERATION
+	// ch := make(chan int)
+
+	// select {
+	// case msg := <-ch:
+	// 	fmt.Println("Received:", msg)
+	// default:
+	// 	fmt.Println("No message available.")
+	// }
+
+	// // === NON BLOCKING SEND OPERATION
+	// select {
+	// case ch <- 1:
+	// 	fmt.Println("Sent message:")
+	// default:
+	// 	fmt.Println("Channel is not ready to receive.")
+	// }
+	// close(ch)
+
+	// === NON BLOCKING OPERATION IN REAL TIME SYSTEMS
+
+	data := make(chan int)
+
+	quit := make(chan bool)
+
+	go func() {
+	outer:
+		for {
+			select {
+			case d := <-data:
+				fmt.Println("Data received:", d)
+			case <-quit:
+				fmt.Println("Stopping...")
+				break outer
+			default:
+				fmt.Println("Waiting for data...")
+				time.Sleep(500 * time.Millisecond)
+			}
+		}
+	}()
+
+	for i := 0; i < 5; i++ {
+		data <- i
+		time.Sleep(1000 * time.Millisecond)
+	}
+	quit <- true
+
+}

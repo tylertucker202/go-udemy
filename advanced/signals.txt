@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+func main() {
+	pid := os.Getpid()
+	fmt.Println("Process ID:", pid)
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	// Notify Channel on interrupt or terminate signals
+
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGUSR1, syscall.SIGHUP)
+
+	go func() {
+		sig := <-sigs
+		fmt.Println("Received signal: ", sig)
+		done <- true
+	}()
+
+	go func() {
+
+		for {
+			select {
+			case <-done:
+				fmt.Println("Stopping work due to signal.")
+				return
+			default:
+				fmt.Println("Working...")
+				time.Sleep(time.Second)
+			}
+		}
+		//sig := <-sigs
+		// for sig := range sigs {
+		// 	switch sig {
+		// 	case syscall.SIGINT:
+		// 		fmt.Println("Received SIGINT (interrupt)")
+		// 	// case syscall.SIGTERM:
+		// 	// 	fmt.Println("Received SIGTERM (terminate)")
+		// 	case syscall.SIGHUP:
+		// 		fmt.Println("Received SIGHUP (hangup)")
+		// 	case syscall.SIGUSR1:
+		// 		fmt.Println("Received SIGUSER1 (User defined signal)")
+		// 	default:
+		// 		fmt.Println("UNACCOUNTED FOR SIGNAL")
+		// 	}
+		// 	fmt.Println("Recieved signal:", sig)
+		// 	fmt.Println("Graceful exit.")
+		// 	os.Exit(0)
+		// }
+	}()
+
+	fmt.Println("Waiting for signal")
+	for {
+		time.Sleep(time.Second)
+	}
+}

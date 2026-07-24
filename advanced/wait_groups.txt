@@ -1,0 +1,137 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// TICKETS EXAMPLE
+type ticketRequest struct {
+	personID   int
+	numTickets int
+	cost       int
+}
+
+func (t *ticketRequest) ProcessTicket(wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Printf("Processing %d ticket(s) of personID %d with total cost %d\n", t.numTickets, t.personID, t.cost)
+	time.Sleep(time.Second)
+	fmt.Printf("Ticket Processed for id: %d cost: %d\n", t.personID, t.cost)
+}
+
+func main() {
+	var wg sync.WaitGroup
+	numRequests := 10
+	price := 10
+	// ticketRequests := make(chan ticketRequest, numRequests)
+
+	for i := range numRequests {
+		tr := ticketRequest{personID: i + 1, numTickets: (i + 1) * 2, cost: (i + 1) * price}
+		wg.Add(1)
+		tr.ProcessTicket(&wg)
+	}
+
+	// Wait for all tickets to process
+	wg.Wait()
+
+	//finished
+	fmt.Println("All tickets processed")
+
+}
+
+// // CONSTRUCTION EXAMPLE
+
+// type Worker struct {
+// 	ID   int
+// 	Task string
+// }
+
+// func (w *Worker) PerformTask(wg *sync.WaitGroup) {
+// 	defer wg.Done()
+// 	fmt.Printf("WorkerID %d started %s\n", w.ID, w.Task)
+// 	time.Sleep(time.Second)
+// 	fmt.Printf("WorkerID %d completed %s\n", w.ID, w.Task)
+// }
+
+// func main() {
+// 	var wg sync.WaitGroup
+// 	tasks := []string{"Digging", "Painting", "Laying Bricks"}
+
+// 	for i, task := range tasks {
+// 		worker := Worker{ID: i + 1, Task: task}
+// 		wg.Add(1)
+// 		go worker.PerformTask(&wg)
+// 	}
+
+// 	// Wait for all workers to finsih
+// 	wg.Wait()
+
+// 	//Construction finished
+// 	fmt.Println("Construction finished")
+
+// }
+
+// =======BASIC EXAMPLE WITH CHANNELS
+
+// func worker(id int, tasks <-chan int, results chan<- int, wg *sync.WaitGroup) {
+// 	defer wg.Done()
+// 	fmt.Printf("WorkerID %d Starting\n", id)
+// 	time.Sleep(time.Second)
+// 	results <- id * 2
+// 	fmt.Printf("WorkerID %d Finished\n", id)
+// }
+
+// func main() {
+
+// 	var wg sync.WaitGroup
+// 	numWorkers := 3
+// 	numJobs := 5
+// 	results := make(chan int, numJobs)
+// 	tasks := make(chan int, numJobs)
+
+// 	wg.Add(numWorkers)
+
+// 	for i := range numWorkers {
+// 		go worker(i+1, tasks, results, &wg)
+// 	}
+
+// 	for i := range numJobs {
+// 		tasks <- i + 1
+// 	}
+// 	close(tasks)
+
+// 	go func() { //non blocking wait (on separate thread)
+// 		wg.Wait()
+// 		close(results)
+// 	}()
+
+// 	for result := range results {
+// 		fmt.Println("Result:", result)
+// 	}
+
+// }
+
+// =======BASIC EXAMPLE W/O Channels
+// func worker(id int, wg *sync.WaitGroup) {
+// 	defer wg.Done()
+// 	fmt.Printf("Worker %d starting\n", id)
+// 	time.Sleep(time.Second)
+// 	fmt.Printf("Worker %d finished\n", id)
+// }
+
+// func main() {
+
+// 	var wg sync.WaitGroup
+// 	numWorkers := 3
+
+// 	wg.Add(numWorkers)
+
+// 	//Launch workers
+// 	for i := range numWorkers {
+// 		go worker(i, &wg)
+// 	}
+
+// 	wg.Wait() //blocking mechanism
+// 	fmt.Println("All workers finished")
+// }

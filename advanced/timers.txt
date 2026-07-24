@@ -1,0 +1,82 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	timer1 := time.NewTimer(1 * time.Second) //non blocking timer starts
+	timer2 := time.NewTimer(2 * time.Second) //non blocking timer starts
+
+	for range 2 {
+		select {
+		case <-timer1.C:
+			fmt.Println("Timer1 expired")
+		case <-timer2.C:
+			fmt.Println("Timer2 expired")
+		}
+	}
+}
+
+// // Scheduling delayed operations
+
+// func main() {
+// 	timer := time.NewTimer(2 * time.Second) //non blocking timer starts
+
+// 	go func() {
+// 		<-timer.C
+// 		fmt.Println("Delayed operation executed")
+// 	}()
+
+// 	fmt.Println("Waiting...")
+// 	time.Sleep(3 * time.Second) //Blocking timer starts
+// }
+
+// TIMEOUT
+// func longRunningOperation() {
+// 	for i := range 20 {
+// 		fmt.Println(i)
+// 		time.Sleep(time.Second)
+// 	}
+// }
+
+// func main() {
+// 	timeout := time.After(2 * time.Second)
+// 	done := make(chan bool)
+// 	go func() {
+// 		longRunningOperation()
+// 		done <- true
+// 	}()
+
+// 	select {
+// 	case <-timeout:
+// 		fmt.Println("timeout")
+// 	case <-done:
+// 		fmt.Println("Finished")
+// 	}
+// }
+
+// func main() {
+
+// 	fmt.Println("Starting App")
+
+// 	timer := time.NewTimer(2 * time.Second)
+
+// 	stopped := timer.Stop()
+// 	if stopped {
+// 		fmt.Println("stopped")
+// 	}
+
+// 	start := timer.Reset(2 * time.Second)
+// 	if start {
+// 		fmt.Println("restarted active timer")
+// 	} else {
+// 		fmt.Println("restarted stopped timer")
+// 	}
+
+// 	fmt.Println("Waiting for Timer")
+// 	<-timer.C //blocking in nature
+// 	fmt.Println("Timer expired")
+
+// }

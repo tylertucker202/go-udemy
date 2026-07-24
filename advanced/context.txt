@@ -1,0 +1,96 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+)
+
+func doWork(ctx context.Context) {
+
+	for {
+		select {
+		case <-ctx.Done():
+			fmt.Println("Work cancelled", ctx.Err())
+			return
+		default:
+			fmt.Println("Working...")
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+
+}
+
+func logWithContext(ctx context.Context, message string) {
+
+	ridval := ctx.Value("requestID")
+	log.Printf("RequestID: %v - %v", ridval, message)
+}
+
+func main() {
+	rootCtx := context.Background()
+	//ctx, cancel := context.WithTimeout(rootCtx, 2*time.Second) //timer of the ctx starts here
+	ctx, cancel := context.WithCancel(rootCtx)
+
+	go func() { //simulating a heavy task
+		time.Sleep(2 * time.Second)
+		cancel() //manually cancel after task is finished
+	}()
+
+	ctx = context.WithValue(ctx, "requestID", "qwusjq984u5")
+	go doWork(ctx)
+	time.Sleep(3 * time.Second)
+
+	requestID := ctx.Value("requestID")
+	if requestID != nil {
+		fmt.Println("Request ID:", requestID)
+	} else {
+		fmt.Println("No request ID found")
+	}
+	logWithContext(ctx, "This is a test log message")
+}
+
+// func checkEvenOdd(ctx context.Context, num int) string {
+// 	select {
+// 	case <-ctx.Done():
+// 		return "Operation cancelled"
+// 	default:
+// 		if num%2 == 0 {
+// 			return fmt.Sprintf("%d is even", num)
+// 		}
+// 		return fmt.Sprintf("%d is odd", num)
+// 	}
+// }
+
+// func main() {
+// 	// ctx := context.TODO()
+
+// 	// result := checkEvenOdd(ctx, 11)
+// 	// fmt.Println(result)
+
+// 	ctx := context.Background()
+// 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+// 	defer cancel()
+
+// 	result := checkEvenOdd(ctx, 10)
+// 	fmt.Println("Result from timeout context:", result)
+
+// 	time.Sleep(3 * time.Second)
+// 	result = checkEvenOdd(ctx, 15)
+// 	fmt.Println("Result from timeout context:", result)
+// }
+
+// func main() {
+
+// 	todoContext := context.TODO()
+// 	contextBkg := context.Background()
+
+// 	ctx := context.WithValue(todoContext, "name", "John")
+// 	fmt.Println(ctx)
+// 	fmt.Println(ctx.Value("name"))
+
+// 	ctx1 := context.WithValue(contextBkg, "city", "New York")
+// 	fmt.Println(ctx1)
+// 	fmt.Println(ctx.Value("name1"))
+// }

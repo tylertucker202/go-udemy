@@ -1,0 +1,85 @@
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type Greeter struct{}
+
+func (g Greeter) Greet(name string) string {
+	return "Hello " + name
+}
+
+func main() {
+	g := Greeter{}
+	t := reflect.TypeOf(g)
+	v := reflect.ValueOf(g)
+
+	fmt.Println("Type:", t)
+	for i := range t.NumMethod() {
+		method := t.Method(i)
+		fmt.Printf("Method %d: %s\n", i, method.Name)
+	}
+
+	m := v.MethodByName("Greet")
+	results := m.Call([]reflect.Value{reflect.ValueOf("Alice"), reflect.ValueOf("Doe")})
+	fmt.Println("Greet result: ", results[0].String())
+
+}
+
+// // WORKING WITH STRUCTS AND FIELDS
+// type person struct {
+// 	Name string //uppercase allows for mutation
+// 	age  int
+// }
+
+// func main() {
+// 	p := person{Name: "Alice", age: 30}
+// 	v := reflect.ValueOf(p)
+
+// 	for i := range v.NumField() {
+// 		fmt.Printf("Field %d: %v\n", i, v.Field(i))
+// 	}
+
+// 	v1 := reflect.ValueOf(&p).Elem()
+
+// 	nameField := v1.FieldByName("Name")
+// 	if nameField.CanSet() {
+// 		nameField.SetString("Jane")
+// 	}
+
+// 	fmt.Println("Modified Person: ", p)
+// }
+
+// func main() {
+// 	x := 42
+
+// 	v := reflect.ValueOf(x)
+// 	t := v.Type()
+
+// 	fmt.Println("value: ", v)
+// 	fmt.Println("type: ", t.Kind())
+// 	fmt.Println("Is int?", t.Kind() == reflect.Int)
+// 	fmt.Println("Is string?", t.Kind() == reflect.String)
+
+// 	fmt.Println("is Zero:", v.IsZero())
+
+// 	y := 10
+// 	v1 := reflect.ValueOf(&y).Elem()
+// 	v2 := reflect.ValueOf(&y)
+// 	fmt.Println("value of y:", v1)
+// 	fmt.Println("value of pointer y:", v2)
+
+// 	fmt.Println("Original value:", v1.Int())
+// 	v1.SetInt(18)
+// 	fmt.Println("Modified value:", v1.Int())
+
+// 	var itf interface{} = "Hello"
+
+// 	v3 := reflect.ValueOf(itf)
+
+// 	if v3.Kind() == reflect.String {
+// 		fmt.Println("String value: ", v3.String())
+// 	}
+// }
