@@ -1,0 +1,24 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func main() {
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello Server")
+	})
+
+	port := ":3000"
+	const serverAddr string = "127.0.0.1:3000"
+
+	err := http.ListenAndServe(port, nil)
+
+	fmt.Println("Listening on port ", serverAddr)
+	if err != nil {
+		log.Fatalln("error starting server", err)
+	}
+}
