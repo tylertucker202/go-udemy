@@ -1,0 +1,18 @@
+package router
+
+import (
+	"net/http"
+	"restapi/internal/api/handlers"
+)
+
+func Router() *http.ServeMux {
+	mux := http.NewServeMux()
+
+	// Define your routes and handlers here
+	mux.HandleFunc("/", handlers.RootHandler)
+	mux.HandleFunc("/students", handlers.StudentsHandler)
+	mux.HandleFunc("/teachers", handlers.TeachersHandler)
+	mux.HandleFunc("/execs", handlers.ExecsHandler)
+
+	return mux
+}

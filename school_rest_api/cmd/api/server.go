@@ -1,127 +1,58 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
+	"restapi/internal/api/middlewares"
+	"restapi/internal/api/router"
+	"restapi/pkg/utils"
 )
-
-type User struct {
-	Name string `json:"name"`
-	Age  string `json:"age"`
-	City string `json:"city"`
-}
-
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello Root Route"))
-	fmt.Println("Hello Root Route")
-}
-
-func teachersHandler(w http.ResponseWriter, r *http.Request) {
-	//teachers/{id}
-	fmt.Println(r.Method)
-	msg := fmt.Sprintf("Hello %s Teachers Route", r.Method)
-	w.Write([]byte(msg))
-	fmt.Println(msg)
-	switch r.Method {
-	case http.MethodGet:
-		path := strings.TrimPrefix(r.URL.Path, "/teachers/")
-		userID := strings.TrimSuffix(path, "/")
-		queryParams := r.URL.Query()
-		fmt.Println("User ID:", userID)
-		fmt.Println("Query name:", queryParams["name"])
-		sortby := queryParams.Get("sortby")
-		key := queryParams.Get("key")
-		sortorder := queryParams.Get("sortorder")
-
-		if sortorder == "" {
-			sortorder = "asc"
-		}
-
-		fmt.Println("Sort by:", sortby)
-		fmt.Println("Key:", key)
-		fmt.Println("Sort order:", sortorder)
-
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPost:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPut:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPatch:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodDelete:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	}
-}
-
-func studentsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
-	msg := fmt.Sprintf("Hello %s Students Route", r.Method)
-	w.Write([]byte(msg))
-	fmt.Println(msg)
-	switch r.Method {
-	case http.MethodGet:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPost:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPut:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPatch:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodDelete:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	}
-}
-
-func execsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
-	msg := fmt.Sprintf("Hello %s Students Route", r.Method)
-	w.Write([]byte(msg))
-	fmt.Println(msg)
-	switch r.Method {
-	case http.MethodGet:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPost:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPut:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodPatch:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	case http.MethodDelete:
-		w.Write([]byte(msg))
-		fmt.Println(msg)
-	}
-}
 
 func main() {
 
 	port := ":3000"
+	cert := "cert.pem"
+	key := "key.pem"
 
-	http.HandleFunc("/root", rootHandler)
+	// mux := http.NewServeMux()
 
-	http.HandleFunc("/teachers/", teachersHandler)
+	tlsCofig := &tls.Config{
+		MinVersion: tls.VersionTLS12,
+	}
 
-	http.HandleFunc("/students/", studentsHandler)
+	// rl := middlewares.NewRateLimiter(5, time.Minute)
 
-	http.HandleFunc("/execs/", execsHandler)
+	// hppOptions := middlewares.HPPOptions{
+	// 	CheckQuery:                  true,
+	// 	CheckBody:                   true,
+	// 	CheckBodyOnlyForContentType: "application/x-www-form-urlencoded",
+	// 	Whitelist:                   []string{"sortBy", "sortOrder", "name", "age", "class"},
+	// }
+
+	// secureMux := middlewares.Cors(rl.Middleware(middlewares.ResponseTimeMiddleware(middlewares.SecurityHeaders(middlewares.CompressionMiddleware(middlewares.Hpp(hppOptions)(mux))))))
+	// secureMux := utils.ApplyMiddlewares(mux,
+	// 	middlewares.CompressionMiddleware,
+	// 	middlewares.SecurityHeaders,
+	// 	middlewares.ResponseTimeMiddleware,
+	// 	rl.Middleware,
+	// 	middlewares.Hpp(hppOptions),
+	// 	middlewares.Cors)
+
+	router := router.Router()
+	secureMux := utils.ApplyMiddlewares(router, middlewares.SecurityHeaders)
+
+	server := &http.Server{
+		Addr: port,
+		//Handler:   middlewares.SecurityHeaders(mux),
+		//Handler:   middlewares.Cors(mux),
+		Handler:   secureMux,
+		TLSConfig: tlsCofig,
+	}
 
 	fmt.Println("Server is running on port: ", port)
-	err := http.ListenAndServe(port, nil)
+	err := server.ListenAndServeTLS(cert, key)
 	if err != nil {
 		log.Fatalln("Error starting the server", err)
 	}
