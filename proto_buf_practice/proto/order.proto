@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package main;
+
+import "user/user.proto";
+
+option go_package = "/proto/gen;mainpb";
+
+message Order {
+    string id = 1;
+    user.User user = 2;
+    Address address = 3;
+}
+
+message Address {
+    string address_line = 1;
+    string city = 2;
+    string state = 3;
+}
